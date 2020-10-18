@@ -1,0 +1,31 @@
+#myCanvas{
+    background-color: black;
+    width: 90vw;
+    height: 90vh;
+}
+
+#canvasDiv{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.outer{
+    background-color: black;
+    width: 300px;
+    height: 300px;
+}
+.try{
+    width: 200px;
+    height: 200px;
+    background-color: #ce0b64;
+}
+
+.try2{
+    width: 200px;
+    height: 200px;
+    background-color: #ce0b64;
+}
