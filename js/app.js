@@ -2,10 +2,26 @@
 //get DPI
 let dpi = window.devicePixelRatio;
 
+
 let canvas = document.getElementById("myCanvas");
 let ctx = canvas.getContext("2d");
 let rightPressed = false;
 let leftPressed = false;
+
+
+//create a style object that returns width and height
+let style = {
+  height() {
+    return +getComputedStyle(canvas).getPropertyValue('height').slice(0,-2);
+  },
+  width() {
+    return +getComputedStyle(canvas).getPropertyValue('width').slice(0,-2);
+  }
+}
+
+//set the correct attributes for a crystal clear image!
+canvas.setAttribute('width', style.width() * dpi);
+canvas.setAttribute('height', style.height() * dpi);
 
 
 function Box(height, width){
@@ -26,7 +42,7 @@ Game_screen.prototype.constructor = Box;
 function Paddle( height, width ) {
   Box.call(this, height, width);
   this.paddleX = (game_screen.width  - this.width)/2;
-  this.paddleY = game_screen.height- this.height ;
+  this.paddleY = game_screen.height- this.height -4;
 } 
 
 Paddle.prototype = Object.create(Box.prototype);
@@ -54,7 +70,7 @@ function Wall(r, c, leftOffset, topOffset){
 function Ball( radius, dx, dy) {
 	this.radius = radius;
   this.x = canvas.width/2;
-  this.y = canvas.height-30;
+  this.y = canvas.height-150;
   this.dx = dx;
   this.dy = dy;
 }
@@ -75,36 +91,12 @@ var words = [
 
 
 
-/*  orig ->
 const game_screen = new Game_screen( canvas.height, canvas.width );
-const paddle = new Paddle(5, 40);
-const brick = new Brick(8, 28, 7);
-const wall = new Wall(3, 8, 10, 15);
-const ball = new Ball(4, 1, -1);
-const game = new Game(0, 3); */
-
-
-const game_screen = new Game_screen( canvas.height, canvas.width );
-const paddle = new Paddle(5, 40);
-const brick = new Brick(10, 50, 7);
-const wall = new Wall(3, 5, 10, 15);
-const ball = new Ball(4, 1, -1);
+const paddle = new Paddle(30, 230);
+const brick = new Brick(50, 250, 20);
+const wall = new Wall(3, 6, 80, 100);
+const ball = new Ball(25, 9, -9);
 const game = new Game(0, 3);
-
-function fix_dpi() {
-  //create a style object that returns width and height
-    let style = {
-      height() {
-        return +getComputedStyle(canvas).getPropertyValue('height').slice(0,-2);
-      },
-      width() {
-        return +getComputedStyle(canvas).getPropertyValue('width').slice(0,-2);
-      }
-    }
-  //set the correct attributes for a crystal clear image!
-    canvas.setAttribute('width', style.width() * dpi);
-    canvas.setAttribute('height', style.height() * dpi);
-  }
 
 
 function Sound(src) {
@@ -254,18 +246,18 @@ function drawBricks() {
           /* ctx.fillStyle = "#E60000"; */
           ctx.fill();
 
-          ctx.font = "All-caps 6px Arial";
+          ctx.font = "35px Arial";
           ctx.fillStyle = "white";
-          ctx.fillText(  cur_brick.word1, brickX + brick.width/5, brickY + 7);
+          ctx.fillText(  cur_brick.word1, brickX + brick.width/4, brickY + 35);
         }
         else if ( cur_brick.status == 1)
         {
           ctx.fillStyle = "#901c57c7";    // maroon
           ctx.fill();
 
-          ctx.font = "All-caps 6px Arial";
+          ctx.font = "35px Arial";
           ctx.fillStyle = "white";
-          ctx.fillText(  cur_brick.word2, brickX + brick.width/4, brickY + 7);
+          ctx.fillText(  cur_brick.word2, brickX + brick.width/4, brickY + 35);
         }
 
         /* ctx.rect( brickX + (brick.width)/3, brickY + (brick.height)/3, (brick.width)/3, (brick.height)/3);
@@ -279,18 +271,27 @@ function drawBricks() {
   }
 }
 
+let star_image = new Image();
+star_image.src = 'images/star6.png';
 
 function drawScore() {
-  ctx.font = "8px Arial";
+  ctx.imageSmoothingEnabled = false;
+  ctx.drawImage( star_image, 15, 15);
+  ctx.font = "40px Arial";
   ctx.fillStyle = "white";
-  ctx.fillText("Score: "+ game.score, 6, 10);
+  ctx.fillText(game.score, 90, 60);
 }
 
 
+let ball_lives_image = new Image();
+ball_lives_image.src = 'images/ball.png';
+
+
 function drawLives() {
-  ctx.font = "8px Arial";
-  ctx.fillStyle = "white";
-  ctx.fillText("Lives: "+ game.lives, game_screen.width -65, 10);
+  ctx.imageSmoothingEnabled = false;
+
+  for(let i=0; i<game.lives; i++)
+    ctx.drawImage( ball_lives_image, game_screen.width-100 - 50*i, 10);
 }
 
 
@@ -299,13 +300,12 @@ async function wait() {
 }
 
 
-let base_image = new Image();
-base_image.src = 'images/star.jpeg';
+
 
 
 async function draw() {
   ctx.clearRect(0, 0, game_screen.width , game_screen.height);
-  /* ctx.drawImage(base_image, 10, 10); */
+  
   drawBricks();
   drawBall();
   drawPaddle();
@@ -342,17 +342,17 @@ async function draw() {
         paddle.paddleX = (game_screen.width -paddle.width)/2; */
 
         ball.x = paddle.paddleX + paddle.width/2;
-        ball.y = paddle.paddleY - 10;
-        ball.dx = 1.25;
-        ball.dy = -1.25;
+        ball.y = paddle.paddleY - 60;
+        /* ball.dx = 1.25;
+        ball.dy = -1.25; */
       }
   }
 
   if(rightPressed && paddle.paddleX < game_screen.width -paddle.width) {
-    paddle.paddleX += 7;
+    paddle.paddleX += 30;
   }
   else if(leftPressed && paddle.paddleX > 0) {
-    paddle.paddleX -= 7;
+    paddle.paddleX -= 30;
   }
 
   ball.x += ball.dx;
@@ -363,7 +363,7 @@ async function draw() {
 
 
 function init() {
-  /* fix_dpi(); */
+
   for(var c=0; c<wall.rowCount; c++) {
     game.bricks_matrix[c] = [];
     for(var r=0; r<wall.columnCount; r++) {
