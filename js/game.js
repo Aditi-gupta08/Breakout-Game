@@ -135,11 +135,15 @@ let words = [
 const wordsMap = [{
   "Apple": {
     "French": "Pomee",
-    "Russian": "askjd",
-    "Hdindi": "as" 
+    "Russian": "russian_apple",
+    "Spanish": "spanish_apple" 
   }
 }, {
-  
+  "girl": {
+    "French": "fille",
+    "Russian": "rus_girl",
+    "Spanish": "sp_girl" 
+  }
 }]
 
 const game_screen = new Game_screen( canvas.height, canvas.width );
@@ -195,6 +199,12 @@ function keyUpHandler(e) {
 
 function mouseMoveHandler(e) {
   var relativeX = e.clientX - canvas.offsetLeft;
+
+  if( relativeX<paddle.width )
+    relativeX = paddle.width/2;
+  else if( relativeX > game_screen.width - paddle.width)
+    relativeX = game_screen.width - paddle.width/2;
+
   if(relativeX > 0 && relativeX < game_screen.width ) {
     paddle.paddleX = relativeX - paddle.width/2;
   }
