@@ -440,7 +440,7 @@ async function draw() {
 
 
 
-function init() {
+function startGame() {
 
   Rotate();
 
@@ -468,4 +468,10 @@ function init() {
   draw();
 }
 
-init();
+
+function init()
+{
+  document.getElementById("startGameDiv").style.display = "none";
+  startGame();
+}
+
