@@ -326,7 +326,7 @@ function drawBricks() {
           ctx.fillStyle = "white";
           ctx.fillText(  cur_brick.word2, brickX + brick.width/4, brickY + 35);
         }
-        
+
         ctx.closePath();
       }
     }
@@ -390,17 +390,17 @@ async function draw() {
       /* await draw(); */
       game.lives--;
 
+      if( navigator.vibrate) {
+        window.navigator.vibrate(500);
+        console.log("vib");
+      } else {
+        console.log("no");
+      }
+
       wall.topOffset+= 20;
 
       if(!game.lives) {
         navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
-
-        if( navigator.vibrate) {
-          window.navigator.vibrate(2000);
-          console.log("vib");
-        } else {
-          console.log("no");
-        }
 
         /* modal.style.display = "block";
         span.onclick = function() {
