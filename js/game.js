@@ -85,7 +85,7 @@ Game_screen.prototype.constructor = Box;
 function Paddle( height, width ) {
   Box.call(this, height, width);
   this.paddleX = (game_screen.width  - this.width)/2;
-  this.paddleY = game_screen.height- this.height -4;
+  this.paddleY = game_screen.height- this.height -20;
 } 
 
 Paddle.prototype = Object.create(Box.prototype);
@@ -144,25 +144,13 @@ const wordsMap = [{
 
 const game_screen = new Game_screen( canvas.height, canvas.width );
 const paddle = new Paddle(30, 230);
-const brick = new Brick(50, 250, 20);
+const brick = new Brick( game_screen.height/15, game_screen.width/7, 20);
 const wall = new Wall(3, 6, 80, 100);
 const ball = new Ball(25, 10, -10);
 const game = new Game(0, 3);
 
 
 function Sound(src) {
-  /* this.sound = document.createElement("audio");
-  this.sound.src = src;
-  this.sound.setAttribute("preload", "auto");
-  this.sound.setAttribute("controls", "none");
-  this.sound.style.display = "none";
-  document.body.appendChild(this.sound);
-  this.play = function(){
-    this.sound.play();
-  }
-  this.stop = function(){
-    this.sound.pause();
-  } */
 
   this.sound = new Audio();
   this.sound.src= src;
@@ -211,6 +199,7 @@ function mouseMoveHandler(e) {
     paddle.paddleX = relativeX - paddle.width/2;
   }
 }
+
 function collisionDetection() {
   for(var c=0; c<wall.rowCount; c++) {
     for(var r=0; r<wall.columnCount; r++) {
@@ -390,17 +379,18 @@ async function draw() {
       /* await draw(); */
       game.lives--;
 
-      if( navigator.vibrate) {
-        window.navigator.vibrate(500);
-        console.log("vib");
-      } else {
-        console.log("no");
-      }
 
       wall.topOffset+= 20;
 
       if(!game.lives) {
         navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
+
+        if( navigator.vibrate) {
+          window.navigator.vibrate(400);
+          console.log("vib");
+        } else {
+          console.log("no");
+        }
 
         /* modal.style.display = "block";
         span.onclick = function() {
@@ -413,6 +403,13 @@ async function draw() {
         
       }
       else {
+
+        if( navigator.vibrate) {
+          window.navigator.vibrate(300);
+          console.log("vib");
+        } else {
+          console.log("no");
+        }
 
         ball.x = paddle.paddleX + paddle.width/2;
         ball.y = paddle.paddleY - 60;
