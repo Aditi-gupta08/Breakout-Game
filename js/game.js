@@ -10,7 +10,8 @@ let leftPressed = false;
 
 
 //create a style object that returns width and height
-let style = {
+let style = 
+{
   height() {
     return +getComputedStyle(canvas).getPropertyValue('height').slice(0,-2);
   },
@@ -22,6 +23,48 @@ let style = {
 //set the correct attributes for a crystal clear image!
 canvas.setAttribute('width', style.width() * dpi);
 canvas.setAttribute('height', style.height() * dpi);
+
+
+var modal = document.getElementById("myModal");
+
+var span = document.getElementsByClassName("close")[0];
+
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+/* window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+} */
+
+function Rotate()
+{
+  if("orientation" in screen) {
+    if(document.documentElement.requestFullscreen) 
+    {
+      document.documentElement.requestFullscreen();
+    } 
+    else if( document.documentElement.mozRequestFullscreen ) 
+    {
+      document.documentElement.mozRequestFullscreen();
+    } 
+    else if( document.documentElement.webkitRequestFullscreen ) {
+      document.documentElement.webkitRequestFullscreen();
+    } 
+    else {
+      document.documentElement.msRequestFullscreen();
+    } 
+
+    screen.orientation.lock('landscape-primary');
+  }
+  
+}
+
+
+
+
 
 
 function Box(height, width){
@@ -82,25 +125,33 @@ function Game( score, lives) {
 }
 
 
-var words = [
+let words = [
   ["Apple", "Pomme"], ["Girl", "Fille"], ["Boy", "Garçon"], ["Day", "Jour"], ["Cat", "Chat"], ["Hello", "Salut"], ["Bye", "Au reviour"], ["Beautiful", "Belle"], ["Thank You", "Merci"], 
   ["City", "Ville"], ["Earth", "Terre"], ["Sea", "Mer"], ["Pink", "Rose"], ["Black", "Noir"], ["Red", "Rouge"], ["Easy", "Facile"], ["Onion", "Oignon"], ["Vegetables", "Legumes"],
   ["Carrot", "Carrote"], ["Water", "Eau"], ["Kitchen", "Cuisine"], ["House", "Maison"], ["Shirt", "Chemise"], ["Coat", "Manteau"], ["Skirt", "Jupe"], ["Dress", "Robe"], ["Winter", "Hiver"],
   ["Summer", "Ete"], ["Sky", "Ciel"]
 ]
 
-
+const wordsMap = [{
+  "Apple": {
+    "French": "Pomee",
+    "Russian": "askjd",
+    "Hdindi": "as" 
+  }
+}, {
+  
+}]
 
 const game_screen = new Game_screen( canvas.height, canvas.width );
 const paddle = new Paddle(30, 230);
 const brick = new Brick(50, 250, 20);
 const wall = new Wall(3, 6, 80, 100);
-const ball = new Ball(25, 9, -9);
+const ball = new Ball(25, 10, -10);
 const game = new Game(0, 3);
 
 
 function Sound(src) {
-  this.sound = document.createElement("audio");
+  /* this.sound = document.createElement("audio");
   this.sound.src = src;
   this.sound.setAttribute("preload", "auto");
   this.sound.setAttribute("controls", "none");
@@ -111,13 +162,29 @@ function Sound(src) {
   }
   this.stop = function(){
     this.sound.pause();
-  }
+  } */
+
+  this.sound = new Audio();
+  this.sound.src= src;
+  
+  this.playSound = (event) => {
+      var playedPromise = this.sound.play();
+      if (playedPromise) {
+          playedPromise.catch((e) => {
+              console.log(e)
+              if (e.name === 'NotAllowedError' || e.name === 'NotSupportedError') { 
+                    console.log(e.name);
+                }
+          })
+      }
 }
+}
+
 
 let hittingBrick = new Sound("sounds/hitting-brick.mp3");
 let hittingPaddle = new Sound("sounds/hitting-paddle.mp3");
 let fallen = new Sound("sounds/fallen.mp3");
-let won = new Sound("sounds/won.mp3");
+let won = new Sound("sounds/won.mp3"); 
 
 
 function keyDownHandler(e) {
@@ -156,12 +223,12 @@ function collisionDetection() {
           if( (ball.y + ball.radius) > b.y && (ball.y - ball.radius) < b.y+brick.height) 
           {
             ball.dy = -ball.dy;
-            hittingBrick.play();
+            hittingBrick.playSound();
             --b.status;
             game.score++;
 
             if(game.score == 2*wall.columnCount*wall.rowCount) {
-              won.play();
+              won.playSound();
 
               setTimeout( () => {
                 alert("YOU WIN, CONGRATS!");
@@ -321,30 +388,39 @@ async function draw() {
   }
   else if( ball.x+ball.radius > paddle.paddleX && ball.x-ball.radius <paddle.paddleX + paddle.width && ball.y + ball.dy > game_screen.height-ball.radius - paddle.height) {
       ball.dy = -ball.dy;
-      hittingPaddle.play();
+      hittingPaddle.playSound();
   }
   else if( ball.y + ball.dy > game_screen.height-ball.radius) {            // Bottom wall collision
-      fallen.play();
+      fallen.playSound();
       /* await draw(); */
       game.lives--;
 
       wall.topOffset+= 20;
 
       if(!game.lives) {
+        navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
+
+        if( navigator.vibrate) {
+          window.navigator.vibrate(2000);
+          console.log("vib");
+        } else {
+          console.log("no");
+        }
+
+        /* modal.style.display = "block";
+        span.onclick = function() {
+          modal.style.display = "none";
+          document.location.reload();
+        } */
+        
         alert("GAME OVER");
-        document.location.reload(); 
+        document.location.reload();
+        
       }
       else {
-        /* ball.x = game_screen.width /2;
-        ball.y = game_screen.height-30;
-        ball.dx = 1.25;
-        ball.dy = -1.25;
-        paddle.paddleX = (game_screen.width -paddle.width)/2; */
 
         ball.x = paddle.paddleX + paddle.width/2;
         ball.y = paddle.paddleY - 60;
-        /* ball.dx = 1.25;
-        ball.dy = -1.25; */
       }
   }
 
@@ -363,6 +439,8 @@ async function draw() {
 
 
 function init() {
+
+  Rotate();
 
   for(var c=0; c<wall.rowCount; c++) {
     game.bricks_matrix[c] = [];
