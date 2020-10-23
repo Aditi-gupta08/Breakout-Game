@@ -326,12 +326,7 @@ function drawBricks() {
           ctx.fillStyle = "white";
           ctx.fillText(  cur_brick.word2, brickX + brick.width/4, brickY + 35);
         }
-
-        /* ctx.rect( brickX + (brick.width)/3, brickY + (brick.height)/3, (brick.width)/3, (brick.height)/3);
-        ctx.fillStyle = "#6f25e463"; */
         
-
-        /* ctx.fill(); */
         ctx.closePath();
       }
     }
