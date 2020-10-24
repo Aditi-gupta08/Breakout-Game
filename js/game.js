@@ -118,7 +118,7 @@ function Game( score, lives) {
 const game_screen = new Game_screen( canvas.height, canvas.width );
 const paddle = new Paddle(30, 230);
 const brick = new Brick( game_screen.height/15, game_screen.width/7, 20);
-const wall = new Wall(1, 2, 80, 100);
+const wall = new Wall(3, 6, 80, 100);
 const ball = new Ball(25, 10, -10);
 const game = new Game(0, 3);
 
