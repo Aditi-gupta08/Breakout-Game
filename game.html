@@ -13,15 +13,16 @@
 <body>
 
     <div id="startGameDiv">
-        <input type="button" value="Lock- landscape" onclick="Rotate('landscape-secondary')" >
+        <h1> BreakOut Game </h1>
+        <!-- <input type="button" value="Lock- landscape" onclick="Rotate('landscape-secondary')" > -->
 
         <form>
             <div class="form-group">
                 <label for="sel1"> Choose language to learn:</label>
                 <select class="form-control" id="lang">
-                <option value="1"> French </option>
-                <option value="2"> Russian </option>
-                <option value="3"> Spanish </option>
+                    <option value="1"> French </option>
+                    <option value="2"> Russian </option>
+                    <option value="3"> Spanish </option>
                 </select>
             </div>
         </form>
@@ -34,14 +35,17 @@
         <canvas id="myCanvas"> </canvas>
     </div>
 
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-          <span class="close">&times;</span>
-          <p>Some text in the Modal..</p>
-        </div>
-      
+    <div id="gameOver">
+        <img src="./images/gameOver1.jpeg" alt="GAME OVER" height="60%">
+        <!-- <button class="btn btn-primary tryAgainBtn" onclick="restartGame()"> Try Again </button> -->
     </div>
-    
+
+
+    <div id="won"> 
+        <img src="./images/won.jpeg" alt="YOU WIN" height="60%">
+        <!-- <button class="btn btn-primary tryAgainBtn" onclick="restartGame()"> Play Again </button> -->
+    </div>
+
     
 </body>
 

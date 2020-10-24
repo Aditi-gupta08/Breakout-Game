@@ -29,16 +29,6 @@ var modal = document.getElementById("myModal");
 
 var span = document.getElementsByClassName("close")[0];
 
-span.onclick = function() {
-  modal.style.display = "none";
-}
-
-/* window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-} */
-
 function Rotate()
 {
   if("orientation" in screen) {
@@ -122,7 +112,15 @@ function Game( score, lives) {
 	this.score = score;
   this.lives = lives;
   this.bricks_matrix = [];
+  this.paused = false;
 }
+
+const game_screen = new Game_screen( canvas.height, canvas.width );
+const paddle = new Paddle(30, 230);
+const brick = new Brick( game_screen.height/15, game_screen.width/7, 20);
+const wall = new Wall(1, 2, 80, 100);
+const ball = new Ball(25, 10, -10);
+const game = new Game(0, 3);
 
 
 let words = [
@@ -146,12 +144,7 @@ const wordsMap = [{
   }
 }]
 
-const game_screen = new Game_screen( canvas.height, canvas.width );
-const paddle = new Paddle(30, 230);
-const brick = new Brick( game_screen.height/15, game_screen.width/7, 20);
-const wall = new Wall(3, 6, 80, 100);
-const ball = new Ball(25, 10, -10);
-const game = new Game(0, 3);
+
 
 
 function Sound(src) {
@@ -197,6 +190,7 @@ function keyUpHandler(e) {
     }
 }
 
+
 function mouseMoveHandler(e) {
   var relativeX = e.clientX - canvas.offsetLeft;
 
@@ -209,6 +203,7 @@ function mouseMoveHandler(e) {
     paddle.paddleX = relativeX - paddle.width/2;
   }
 }
+
 
 function collisionDetection() {
   for(var c=0; c<wall.rowCount; c++) {
@@ -230,9 +225,13 @@ function collisionDetection() {
               won.playSound();
 
               setTimeout( () => {
-                alert("YOU WIN, CONGRATS!");
-                document.location.reload();
-              }, 1000);
+                game.paused = true;
+                document.getElementById("won").style.display = "flex";
+              }, 500);
+
+              setTimeout( function() {
+                restartGame()
+              }, 2500);
 
             }
           }
@@ -304,12 +303,6 @@ function drawBricks() {
         if( cur_brick.status == 2)
         {
           ctx.fillStyle = "#eb3b5a";  // pink
-          /* ctx.fillStyle = "#0be881";  // green
-          ctx.fillStyle = "#1304f0";              // blue */
-          /* "#ce0b64";      // pink color */
-          /* #fc427b */
-          /* eb3b5a*/
-          /* ctx.fillStyle = "#E60000"; */
           ctx.fill();
 
           ctx.font = "35px Arial";
@@ -360,11 +353,15 @@ async function wait() {
   await setTimeout(() => {}, 1000);
 }
 
+function restartGame() {
+  game.paused = false;
+  document.location.reload();
+  /* init(); */
+}
 
 
 
-
-async function draw() {
+function draw() {
   ctx.clearRect(0, 0, game_screen.width , game_screen.height);
   
   drawBricks();
@@ -402,14 +399,12 @@ async function draw() {
           console.log("no");
         }
 
-        /* modal.style.display = "block";
-        span.onclick = function() {
-          modal.style.display = "none";
-          document.location.reload();
-        } */
+        game.paused = true;
+        document.getElementById("gameOver").style.display = "flex";
         
-        alert("GAME OVER");
-        document.location.reload();
+        setTimeout( function() {
+          restartGame()
+        }, 2000);
         
       }
       else {
@@ -435,7 +430,11 @@ async function draw() {
 
   ball.x += ball.dx;
   ball.y += ball.dy;
-  requestAnimationFrame(draw);
+
+  if( game.paused == false)
+  {
+    requestAnimationFrame(draw);
+  }
 }
 
 
@@ -464,7 +463,6 @@ function startGame() {
   document.addEventListener("keydown", keyDownHandler, false);
   document.addEventListener("keyup", keyUpHandler, false);
   document.addEventListener("mousemove", mouseMoveHandler, false);
-
   draw();
 }
 
