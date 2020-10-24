@@ -1,4 +1,3 @@
-
 //get DPI
 let dpi = window.devicePixelRatio;
 
@@ -393,7 +392,7 @@ function draw() {
         navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
 
         if( navigator.vibrate) {
-          window.navigator.vibrate(400);
+          window.navigator.vibrate(1000);
           console.log("vib");
         } else {
           console.log("no");
@@ -410,7 +409,7 @@ function draw() {
       else {
 
         if( navigator.vibrate) {
-          window.navigator.vibrate(300);
+          window.navigator.vibrate(800);
           console.log("vib");
         } else {
           console.log("no");
