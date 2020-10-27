@@ -122,27 +122,119 @@ const ball = new Ball(25, 10, -10);
 const game = new Game(0, 3);
 
 
-let words = [
+/* let words = [
   ["Apple", "Pomme"], ["Girl", "Fille"], ["Boy", "Garçon"], ["Day", "Jour"], ["Cat", "Chat"], ["Hello", "Salut"], ["Bye", "Au reviour"], ["Beautiful", "Belle"], ["Thank You", "Merci"], 
   ["City", "Ville"], ["Earth", "Terre"], ["Sea", "Mer"], ["Pink", "Rose"], ["Black", "Noir"], ["Red", "Rouge"], ["Easy", "Facile"], ["Onion", "Oignon"], ["Vegetables", "Legumes"],
   ["Carrot", "Carrote"], ["Water", "Eau"], ["Kitchen", "Cuisine"], ["House", "Maison"], ["Shirt", "Chemise"], ["Coat", "Manteau"], ["Skirt", "Jupe"], ["Dress", "Robe"], ["Winter", "Hiver"],
   ["Summer", "Ete"], ["Sky", "Ciel"]
-]
+] */
 
 const wordsMap = [{
   "Apple": {
-    "French": "Pomee",
-    "Russian": "russian_apple",
-    "Spanish": "spanish_apple" 
+    "French": "Pomme",
+    "German": "Apfel",
+    "Spanish": "manzana" 
+    }
+  }, 
+  {
+    "Girl": {
+      "French": "Fille",
+      "German": "Mädchen",
+      "Spanish": "Niña" 
+    }
+  },
+  {
+    "Boy": {
+      "French": "Garçon",
+      "German": "Junge",
+      "Spanish": "Chico" 
+    }  
+  },
+  {
+    "Day": {
+      "French": "Jour",
+      "German": "Tag",
+      "Spanish": "Dia" 
+    }  
+  },
+  {
+    "Cat": {
+      "French": "Chat",
+      "German": "Katze",
+      "Spanish": "Gato" 
+    }  
+  },
+  {
+    "Hello": {
+      "French": "Salut",
+      "German": "Hallo",
+      "Spanish": "Hola" 
+    }  
+  },
+  {
+    "Bye": {
+      "French": "Au revoir",
+      "German": "Tschüss",
+      "Spanish": "Adiós" 
+    }  
+  },
+  {
+    "Beautiful": {
+      "French": "Belle",
+      "German": "Schön",
+      "Spanish": "Hermosa" 
+    }  
+  },
+  {
+    "Thank You": {
+      "French": "Merci",
+      "German": "Danke",
+      "Spanish": "Gracias" 
+    }  
+  },
+  {
+    "Earth": {
+      "French": "Terre",
+      "German": "Erde",
+      "Spanish": "Tierra" 
+    }  
+  },
+  {
+    "City": {
+      "French": "Ville",
+      "German": "Stadt",
+      "Spanish": "Ciudad" 
+    }  
+  },
+  {
+    "Sea": {
+      "French": "Mer",
+      "German": "Meer",
+      "Spanish": "Mar" 
+    }  
+  },
+  {
+    "Pink": {
+      "French": "Rose",
+      "German": "Rosa",
+      "Spanish": "Rosado" 
+    }  
+  },
+  {
+    "Black": {
+      "French": "Noir",
+      "German": "Schwarz",
+      "Spanish": "Negro" 
+    }  
   }
-}, {
-  "girl": {
-    "French": "fille",
-    "Russian": "rus_girl",
-    "Spanish": "sp_girl" 
-  }
-}]
+]
 
+
+
+function randomWordMapGenerator() {
+  let randInd = Math.floor((Math.random() * wordsMap.length));
+  return wordsMap[randInd];
+}
 
 
 
@@ -243,10 +335,6 @@ function collisionDetection() {
 }
 
 
-function randomWordGenerator() {
-  let randInd = Math.floor((Math.random() * words.length));
-  return words[randInd];
-}
 
 function drawBall() {
   ctx.beginPath();
@@ -296,8 +384,6 @@ function drawBricks() {
         ctx.beginPath();
         ctx.rect(brickX, brickY, brick.width, brick.height);
 
-
-        
 
         if( cur_brick.status == 2)
         {
@@ -393,9 +479,6 @@ function draw() {
 
         if( navigator.vibrate) {
           window.navigator.vibrate(1000);
-          console.log("vib");
-        } else {
-          console.log("no");
         }
 
         game.paused = true;
@@ -410,9 +493,6 @@ function draw() {
 
         if( navigator.vibrate) {
           window.navigator.vibrate(800);
-          console.log("vib");
-        } else {
-          console.log("no");
         }
 
         ball.x = paddle.paddleX + paddle.width/2;
@@ -446,15 +526,19 @@ function startGame() {
     game.bricks_matrix[c] = [];
     for(var r=0; r<wall.columnCount; r++) {
 
-      let randWord = randomWordGenerator()
+      let lang_choosed = document.getElementById("language").value;
+
+      let randWord = randomWordMapGenerator();
+      let eng_word = Object.keys(randWord)[0];
+      let lang_word = randWord[eng_word][lang_choosed];
 
       game.bricks_matrix[c][r] = 
       { 
           x: 0, 
           y: 0, 
           status: 2,
-          word1: randWord[0],
-          word2: randWord[1]
+          word1: eng_word,
+          word2: lang_word
       };
     }
   }

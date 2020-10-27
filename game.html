@@ -13,21 +13,20 @@
 <body>
 
     <div id="startGameDiv">
-        <h1> BreakOut Game </h1>
-        <!-- <input type="button" value="Lock- landscape" onclick="Rotate('landscape-secondary')" > -->
+        <h1> BreakOut Game </h1> <br>
 
         <form>
             <div class="form-group">
                 <label for="sel1"> Choose language to learn:</label>
-                <select class="form-control" id="lang">
-                    <option value="1"> French </option>
-                    <option value="2"> Russian </option>
-                    <option value="3"> Spanish </option>
+                <select class="form-control" id="language">
+                    <option value="French"> French </option>
+                    <option value="German"> German </option>
+                    <option value="Spanish"> Spanish </option>
                 </select>
             </div>
         </form>
 
-        <button onclick="init()"> Start Game </button>
+        <button onclick="init()" cls="btn"> Start Game </button>
     </div>
 
 
