@@ -1,3 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Flavors&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Carter+One&display=swap');
+
+
+*{
+  outline: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
 #startGameDiv{
   display: flex;
   position: absolute;
@@ -46,7 +58,64 @@
 }
 
 
-.tryAgainBtn {
-  width: 150px;
+
+
+#gameName{
+  font-size: 100px;
+  font-family: 'Flavors', cursive;
 }
 
+/* #chooseLangTxt{
+  font-size: 30px;
+} */
+
+.languageDiv select, .languageDiv select:active, .languageDiv select.focus{
+  outline: none;
+  font-size: 23px;
+  padding: 0px 30px;
+}
+
+#language:focus{
+  box-shadow: none;
+}
+
+.languageDiv select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none
+}
+
+.languageDiv select::-ms-expand {
+  display: none
+}
+
+.languageDiv select:focus {
+  outline: none
+}
+
+.fa-angle-down {
+  position: relative;
+  top: 10px;
+  right: 30px;
+  color: black;
+}
+
+.rotate {
+  transform: translateY(-70%) rotate(180deg)
+}
+
+
+#startGameBtn{
+  border-radius: 30px;
+  font-size: 31px;
+  font-family: 'Carter One', cursive;
+  background-color: rgba(241, 236, 236, 0.699);
+}
+
+#startGameBtn:hover {
+  border-radius: 30px;
+  font-size: 31px;
+  font-size: 30px;
+  font-family: 'Carter One', cursive;
+  background-color: rgba(241, 236, 236, 0.486);
+}

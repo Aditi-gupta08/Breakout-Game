@@ -116,20 +116,119 @@ function Game( score, lives) {
 
 const game_screen = new Game_screen( canvas.height, canvas.width );
 const paddle = new Paddle(30, 230);
-const brick = new Brick( game_screen.height/15, game_screen.width/7, 20);
-const wall = new Wall(3, 6, 80, 100);
+const brick = new Brick( game_screen.height/18, game_screen.width/8, 20);
+const wall = new Wall(3, 7, 70, 85);
 const ball = new Ball(25, 10, -10);
 const game = new Game(0, 3);
 
 
-/* let words = [
-  ["Apple", "Pomme"], ["Girl", "Fille"], ["Boy", "Garçon"], ["Day", "Jour"], ["Cat", "Chat"], ["Hello", "Salut"], ["Bye", "Au reviour"], ["Beautiful", "Belle"], ["Thank You", "Merci"], 
-  ["City", "Ville"], ["Earth", "Terre"], ["Sea", "Mer"], ["Pink", "Rose"], ["Black", "Noir"], ["Red", "Rouge"], ["Easy", "Facile"], ["Onion", "Oignon"], ["Vegetables", "Legumes"],
-  ["Carrot", "Carrote"], ["Water", "Eau"], ["Kitchen", "Cuisine"], ["House", "Maison"], ["Shirt", "Chemise"], ["Coat", "Manteau"], ["Skirt", "Jupe"], ["Dress", "Robe"], ["Winter", "Hiver"],
-  ["Summer", "Ete"], ["Sky", "Ciel"]
-] */
-
-const wordsMap = [{
+const wordsMap = [
+  {
+    "Skirt": {
+      "French": "Jupe",
+      "German": "Rock",
+      "Spanish": "Falda" 
+    }
+  }, 
+  {
+    "Dress": {
+      "French": "Robe",
+      "German": "Kleid",
+      "Spanish": "Vestido" 
+    }
+  },
+  {
+    "Winter": {
+      "French": "Hiver",
+      "German": "Winter",
+      "Spanish": "Invierno" 
+    }
+  }, 
+  {
+    "Summer": {
+      "French": "Été",
+      "German": "Sommer",
+      "Spanish": "Verano" 
+    }
+  },
+  {
+    "Sky": {
+      "French": "Ciel",
+      "German": "Himmel",
+      "Spanish": "Cielo" 
+    }
+  }, 
+  {
+    "Kitchen": {
+      "French": "Cuisine",
+      "German": "Küche",
+      "Spanish": "Cocina" 
+    }
+  }, 
+  {
+    "House": {
+      "French": "Maison",
+      "German": "Haus",
+      "Spanish": "Casa" 
+    }
+  },
+  {
+    "Shirt": {
+      "French": "Chemise",
+      "German": "Hemd",
+      "Spanish": "Camisa" 
+    }
+  }, 
+  {
+    "Coat": {
+      "French": "Manteau",
+      "German": "Mantel",
+      "Spanish": "Saco" 
+    }
+  },
+  {
+    "Red": {
+      "French": "Rouge",
+      "German": "Rot",
+      "Spanish": "Rogo" 
+    }
+  }, 
+  {
+    "Easy": {
+      "French": "Facile",
+      "German": "Einfach",
+      "Spanish": "Fácil" 
+    }
+  },
+  {
+    "Onion": {
+      "French": "Oignon",
+      "German": "Zwiebel",
+      "Spanish": "Cebolla" 
+    }
+  }, 
+  {
+    "Vegetables": {
+      "French": "Legumes",
+      "German": "Gemüse",
+      "Spanish": "verduras" 
+    }
+  },
+  {
+    "Carrot": {
+      "French": "Carrote",
+      "German": "Karottel",
+      "Spanish": "Zanahoria" 
+    }
+  }, 
+  {
+    "Water": {
+      "French": "Eau",
+      "German": "Wasser",
+      "Spanish": "Agua" 
+    }
+  },
+  {
   "Apple": {
     "French": "Pomme",
     "German": "Apfel",
@@ -341,6 +440,7 @@ function drawBall() {
   ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI*2);
   ctx.fillStyle = "#6f25e463";          //purple
   ctx.fillStyle = "#1304f0";            // blue
+  /* ctx.fillStyle = "#fdba9a"; */            
   ctx.fill();
   ctx.closePath();
 }
@@ -352,11 +452,15 @@ flatuicolors */
 function drawPaddle() {
   ctx.beginPath();
   ctx.rect(paddle.paddleX, paddle.paddleY, paddle.width, paddle.height);
-  /* ctx.fillStyle = "#0095DD"; */
-  ctx.fillStyle = "#6f25e463";             //purple
-  ctx.fillStyle = "#0be881";  // green
-  ctx.fillStyle = "#1304f0";              // blue
+  ctx.fillStyle = "#1304f0";              // blue  fff
+  ctx.fillStyle = "white";
   ctx.fill();
+
+  ctx.strokeStyle = "#f64b3c";
+  ctx.strokeStyle = "#c81912";
+  ctx.lineWidth = 5;
+  ctx.strokeRect(paddle.paddleX, paddle.paddleY, paddle.width, paddle.height);
+
   ctx.closePath();
 }
 
@@ -387,21 +491,30 @@ function drawBricks() {
 
         if( cur_brick.status == 2)
         {
-          ctx.fillStyle = "#eb3b5a";  // pink
+          ctx.fillStyle = "#eb3b5a";  // pink  
+          ctx.fillStyle = "#c81912"; 
           ctx.fill();
 
           ctx.font = "35px Arial";
+          ctx.textAlign="center"; 
+          ctx.textBaseline = "middle";
+
           ctx.fillStyle = "white";
-          ctx.fillText(  cur_brick.word1, brickX + brick.width/4, brickY + 35);
+          ctx.fillText(  cur_brick.word1, brickX + brick.width/2, brickY + brick.height/2);
         }
         else if ( cur_brick.status == 1)
         {
-          ctx.fillStyle = "#901c57c7";    // maroon
+          ctx.fillStyle = "#901c57c7";    // maroon 
+          ctx.fillStyle = "#f64b3c";
+          
           ctx.fill();
 
           ctx.font = "35px Arial";
+          ctx.textAlign="center"; 
+          ctx.textBaseline = "middle";
+
           ctx.fillStyle = "white";
-          ctx.fillText(  cur_brick.word2, brickX + brick.width/4, brickY + 35);
+          ctx.fillText(  cur_brick.word2, brickX + brick.width/2, brickY + brick.height/2);
         }
 
         ctx.closePath();
@@ -411,14 +524,14 @@ function drawBricks() {
 }
 
 let star_image = new Image();
-star_image.src = 'images/star6.png';
+star_image.src = 'images/star7.png';
 
 function drawScore() {
   ctx.imageSmoothingEnabled = false;
   ctx.drawImage( star_image, 15, 15);
   ctx.font = "40px Arial";
   ctx.fillStyle = "white";
-  ctx.fillText(game.score, 90, 60);
+  ctx.fillText(game.score, 100, 50);
 }
 
 
@@ -519,7 +632,6 @@ function draw() {
 
 
 function startGame() {
-
   Rotate();
 
   for(var c=0; c<wall.rowCount; c++) {
