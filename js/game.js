@@ -456,10 +456,10 @@ function drawPaddle() {
   ctx.fillStyle = "white";
   ctx.fill();
 
-  ctx.strokeStyle = "#f64b3c";
+  /* ctx.strokeStyle = "#f64b3c";
   ctx.strokeStyle = "#c81912";
   ctx.lineWidth = 5;
-  ctx.strokeRect(paddle.paddleX, paddle.paddleY, paddle.width, paddle.height);
+  ctx.strokeRect(paddle.paddleX, paddle.paddleY, paddle.width, paddle.height); */
 
   ctx.closePath();
 }
@@ -667,4 +667,6 @@ function init()
   document.getElementById("startGameDiv").style.display = "none";
   startGame();
 }
+
+
 
