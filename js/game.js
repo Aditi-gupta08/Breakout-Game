@@ -118,7 +118,7 @@ const game_screen = new Game_screen( canvas.height, canvas.width );
 const paddle = new Paddle(30, 230);
 const brick = new Brick( game_screen.height/18, game_screen.width/8, 20);
 const wall = new Wall(3, 7, 70, 85);
-const ball = new Ball(25, 10, -10);
+const ball = new Ball(25, 12, -12);
 const game = new Game(0, 3);
 
 
