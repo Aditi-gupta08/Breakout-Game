@@ -28,7 +28,7 @@
 }
 
 #myCanvas{
-    background-image: url('../images/bg2.jpeg');
+    background-image: url('../images/bg30.jpg');
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: 100% 100%;
@@ -43,7 +43,6 @@
     height: 100vh;
 }
 
-
 #gameOver, #won{
   display: none;
   position: absolute;
@@ -57,12 +56,19 @@
   background-color: black;
 }
 
-
+.mainText{
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #00000073;
+}
 
 
 #gameName{
   font-size: 100px;
   font-family: 'Flavors', cursive;
+  color: #f0edf1d9;
 }
 
 /* #chooseLangTxt{
@@ -119,3 +125,6 @@
   font-family: 'Carter One', cursive;
   background-color: rgba(241, 236, 236, 0.486);
 }
+
+
+

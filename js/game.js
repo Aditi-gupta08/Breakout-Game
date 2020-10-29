@@ -25,8 +25,9 @@ canvas.setAttribute('height', style.height() * dpi);
 
 
 var modal = document.getElementById("myModal");
-
 var span = document.getElementsByClassName("close")[0];
+/* const elem = document.querySelector('select'); 
+let instance = M.FormSelect.init(elem); */
 
 function Rotate()
 {
@@ -328,7 +329,7 @@ const wordsMap = [
   }
 ]
 
-
+console.log(wordsMap.length);
 
 function randomWordMapGenerator() {
   let randInd = Math.floor((Math.random() * wordsMap.length));
@@ -436,13 +437,17 @@ function collisionDetection() {
 
 
 function drawBall() {
-  ctx.beginPath();
+  /* ctx.beginPath();
   ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI*2);
   ctx.fillStyle = "#6f25e463";          //purple
   ctx.fillStyle = "#1304f0";            // blue
-  /* ctx.fillStyle = "#fdba9a"; */            
+  ctx.fillStyle = "#1e1bc775";
+  ctx.fillStyle = "#fdba9a";          
   ctx.fill();
-  ctx.closePath();
+  ctx.closePath(); */
+
+  ctx.imageSmoothingEnabled = false;
+  ctx.drawImage( ball_image, ball.x, ball.y, 2*ball.radius, 2*ball.radius);
 }
 
 /* 
@@ -450,21 +455,25 @@ color-accesbility
 flatuicolors */
 
 function drawPaddle() {
-  ctx.beginPath();
-  ctx.rect(paddle.paddleX, paddle.paddleY, paddle.width, paddle.height);
+  /* ctx.beginPath(); */
+  /* ctx.rect(paddle.paddleX, paddle.paddleY, paddle.width, paddle.height);
   ctx.fillStyle = "#1304f0";              // blue  fff
-  ctx.fillStyle = "white";
-  ctx.fill();
+  ctx.fillStyle = "#f3f1f187";
+  ctx.fill(); */
 
   /* ctx.strokeStyle = "#f64b3c";
   ctx.strokeStyle = "#c81912";
   ctx.lineWidth = 5;
   ctx.strokeRect(paddle.paddleX, paddle.paddleY, paddle.width, paddle.height); */
 
-  ctx.closePath();
+  
+
+  /* ctx.closePath(); */
+  ctx.imageSmoothingEnabled = false;
+  ctx.drawImage( paddle_image, paddle.paddleX, paddle.paddleY, paddle.width, paddle.height);
 }
 
-
+//mai bhi chalu
 /* function drawPowerUp() {
   ctx.beginPath();
   ctx.rect(30, 30, 5, 8);
@@ -473,6 +482,15 @@ function drawPaddle() {
   ctx.closePath();
 } */
 
+
+let star_image = new Image();
+star_image.src = 'images/star8.png';
+
+let paddle_image = new Image();
+paddle_image.src = 'images/paddle3.png';
+
+let ball_image = new Image();
+ball_image.src = 'images/ball3.png';
 
 
 function drawBricks() {
@@ -493,6 +511,8 @@ function drawBricks() {
         {
           ctx.fillStyle = "#eb3b5a";  // pink  
           ctx.fillStyle = "#c81912"; 
+          ctx.fillStyle = "#98110bc4";
+          ctx.fillStyle = "#8e1d19c4";
           ctx.fill();
 
           ctx.font = "35px Arial";
@@ -506,6 +526,7 @@ function drawBricks() {
         {
           ctx.fillStyle = "#901c57c7";    // maroon 
           ctx.fillStyle = "#f64b3c";
+          ctx.fillStyle = "#ef584a9e";
           
           ctx.fill();
 
@@ -523,8 +544,6 @@ function drawBricks() {
   }
 }
 
-let star_image = new Image();
-star_image.src = 'images/star7.png';
 
 function drawScore() {
   ctx.imageSmoothingEnabled = false;
@@ -575,7 +594,7 @@ function draw() {
   if(ball.y + ball.dy < ball.radius) {                                             // top wall collision
     ball.dy = -ball.dy;
   }
-  else if( ball.x+ball.radius > paddle.paddleX && ball.x-ball.radius <paddle.paddleX + paddle.width && ball.y + ball.dy > game_screen.height-ball.radius - paddle.height) {
+  else if( ball.x+ 2*ball.radius > paddle.paddleX && ball.x-2*ball.radius <paddle.paddleX + paddle.width && ball.y + ball.dy > game_screen.height-2*ball.radius - paddle.height) {
       ball.dy = -ball.dy;
       hittingPaddle.playSound();
   }
