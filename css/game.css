@@ -20,7 +20,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-image: url('../images/front2.jpg');
+  background-image: url('../images/front3.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: 100% 100%;
@@ -28,7 +28,7 @@
 }
 
 #myCanvas{
-    background-image: url('../images/bg30.jpg');
+    background-image: url('../images/bg3.jpg');
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: 100% 100%;
