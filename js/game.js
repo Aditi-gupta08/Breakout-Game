@@ -396,6 +396,14 @@ function mouseMoveHandler(e) {
 }
 
 
+function touchHandler(e) {
+  if(e.touches) {
+    paddle.paddleX = e.touches[0].clientX - canvas.offsetLeft - paddle.width/2;
+    e.preventDefault();
+  }
+}
+
+
 function collisionDetection() {
   for(var c=0; c<wall.rowCount; c++) {
     for(var r=0; r<wall.columnCount; r++) {
