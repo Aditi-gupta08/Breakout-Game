@@ -60,6 +60,7 @@
   display: flex;
   justify-items: center;
   align-items: center;
+  text-align: center;
   flex-direction: column;
   background-color: #00000073;
 }

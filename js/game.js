@@ -27,8 +27,6 @@ canvas.setAttribute('height', style.height() * dpi);
 
 var modal = document.getElementById("myModal");
 var span = document.getElementsByClassName("close")[0];
-/* const elem = document.querySelector('select'); 
-let instance = M.FormSelect.init(elem); */
 
 function Rotate()
 {
@@ -54,9 +52,7 @@ function Rotate()
 }
 
 
-
-
-
+// Constructor Functions
 
 function Box(height, width){
   this.height = height;
@@ -120,7 +116,7 @@ const game_screen = new Game_screen( canvas.height, canvas.width );
 const paddle = new Paddle(30, 230);
 const brick = new Brick( game_screen.height/18, game_screen.width/8, 20);
 const wall = new Wall(3, 7, 70, 85);
-const ball = new Ball(25, game_screen.width/50, -game_screen.height/40);
+const ball = new Ball(25, 12, -12);
 const game = new Game(0, 3);
 
 
@@ -330,7 +326,7 @@ const wordsMap = [
   }
 ]
 
-console.log(wordsMap.length);
+
 
 function randomWordMapGenerator() {
   let randInd = Math.floor((Math.random() * wordsMap.length));
@@ -338,7 +334,7 @@ function randomWordMapGenerator() {
 }
 
 
-
+// Sound
 function Sound(src) {
 
   this.sound = new Audio();
@@ -364,6 +360,19 @@ let fallen = new Sound("sounds/fallen.mp3");
 let won = new Sound("sounds/won.mp3"); 
 
 
+// Images
+let star_image = new Image();
+star_image.src = 'images/star8.png';
+
+let paddle_image = new Image();
+paddle_image.src = 'images/paddle3.png';
+
+let ball_image = new Image();
+ball_image.src = 'images/ball3.png';
+
+
+
+// For moving paddle
 function keyDownHandler(e) {
     if(e.key == "Right" || e.key == "ArrowRight") {
         rightPressed = true;
@@ -399,7 +408,7 @@ function mouseMoveHandler(e) {
 
 function touchHandler(e) {
   if(e.touches) {
-    let relativeX = e.touches[0].clientX - canvas.offsetLeft;
+    let relativeX = (e.touches[0].clientX - canvas.offsetLeft)*dpi;
 
     if(relativeX > 0 && relativeX < game_screen.width ) {
       paddle.paddleX = relativeX - paddle.width/2;
@@ -416,9 +425,9 @@ function collisionDetection() {
       var b = game.bricks_matrix[c][r];
       if(b.status > 0) 
       {
-        if( (ball.x + ball.radius) > b.x && ball.x - ball.radius < b.x+brick.width)
+        if( (ball.x + 2*ball.radius) >= b.x && ball.x <= b.x+brick.width)
         {
-          if( (ball.y + ball.radius) > b.y && (ball.y - ball.radius) < b.y+brick.height) 
+          if( (ball.y + 2*ball.radius) >= b.y && ball.y< (b.y+brick.height) ) 
           {
             ball.dy = -ball.dy;
             hittingBrick.playSound();
@@ -448,32 +457,18 @@ function collisionDetection() {
 }
 
 
-
+// Drawing on canvas
 function drawBall() {
 
   ctx.imageSmoothingEnabled = false;
   ctx.drawImage( ball_image, ball.x, ball.y, 2*ball.radius, 2*ball.radius);
 }
 
-/* 
-color-accesbility
-flatuicolors */
 
 function drawPaddle() {
   ctx.imageSmoothingEnabled = false;
   ctx.drawImage( paddle_image, paddle.paddleX, paddle.paddleY, paddle.width, paddle.height);
 }
-
-
-
-let star_image = new Image();
-star_image.src = 'images/star8.png';
-
-let paddle_image = new Image();
-paddle_image.src = 'images/paddle3.png';
-
-let ball_image = new Image();
-ball_image.src = 'images/ball3.png';
 
 
 function drawBricks() {
@@ -593,7 +588,7 @@ function draw() {
         navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
 
         if( navigator.vibrate) {
-          window.navigator.vibrate(500);
+          window.navigator.vibrate(600);
         }
 
         game.paused = true;
@@ -607,7 +602,7 @@ function draw() {
       else {
 
         if( navigator.vibrate) {
-          window.navigator.vibrate(200);
+          window.navigator.vibrate(300);
         }
 
         ball.x = paddle.paddleX + paddle.width/2;
