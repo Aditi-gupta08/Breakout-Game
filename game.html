@@ -15,17 +15,36 @@
 
 <body>
 
-    <div id="startGameDiv" class="pl-5">
+    <!-- <div id="startGameDiv" class="pl-5">
         <div class="mainText ml-5 p-5">
             <h1 id="gameName" class="mb-md-5 mb-1"> Word Quest </h1> <br>
-            <!-- <div class = "input-field"> 
-                <select id = "select"> 
-                    <option value = "easy"> Easy </option>
-                    <option value = "medium" selected> Medium </option > 
-                    <option value = "hard" > Hard </option > 
-                </select > 
-                <label> Choose Difficulty </label > 
-            </div> -->
+
+
+            <form class="mt-md-5 mt-0">
+                <div class="form-group languageDiv">
+                    <label for="language" id="chooseLangTxt"> <h3> Choose language to learn: </h3></label>
+                    
+                    <span class="d-flex">
+                        <select class="form-control" id="language">
+                            <option value="French" class="optn"> French </option>
+                            <option value="German" class="optn"> German </option>
+                            <option value="Spanish" class="optn"> Spanish </option>
+                        </select>
+                        <i class="fa fa-2x fa-angle-down" aria-hidden="true"></i>
+                    </span>
+                </div>
+            </form> <br> <br>
+
+            
+            <button onclick="init()" class="btn px-4 py-2 w-75" id="startGameBtn"> Start Game </button>
+        </div>
+        
+    </div> -->
+
+
+    <div id="startGameDiv" class="row">
+        <div class="col-10 col-md-4 col-lg-4 mainText ml-md-5 ml-lg-5 m-0 p-md-5 p-lg-5 p-3">
+            <h1 id="gameName" class="mb-md-5 mb-1"> Word Quest </h1> <br>
 
 
             <form class="mt-md-5 mt-0">

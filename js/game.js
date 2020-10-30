@@ -19,6 +19,7 @@ let style =
   }
 }
 
+
 //set the correct attributes for a crystal clear image!
 canvas.setAttribute('width', style.width() * dpi);
 canvas.setAttribute('height', style.height() * dpi);
@@ -119,7 +120,7 @@ const game_screen = new Game_screen( canvas.height, canvas.width );
 const paddle = new Paddle(30, 230);
 const brick = new Brick( game_screen.height/18, game_screen.width/8, 20);
 const wall = new Wall(3, 7, 70, 85);
-const ball = new Ball(25, 12, -12);
+const ball = new Ball(25, game_screen.width/50, -game_screen.height/40);
 const game = new Game(0, 3);
 
 
@@ -383,7 +384,7 @@ function keyUpHandler(e) {
 
 
 function mouseMoveHandler(e) {
-  var relativeX = e.clientX - canvas.offsetLeft;
+  let relativeX = e.clientX - canvas.offsetLeft;
 
   if( relativeX<paddle.width )
     relativeX = paddle.width/2;
@@ -398,7 +399,11 @@ function mouseMoveHandler(e) {
 
 function touchHandler(e) {
   if(e.touches) {
-    paddle.paddleX = e.touches[0].clientX - canvas.offsetLeft - paddle.width/2;
+    let relativeX = e.touches[0].clientX - canvas.offsetLeft;
+
+    if(relativeX > 0 && relativeX < game_screen.width ) {
+      paddle.paddleX = relativeX - paddle.width/2;
+    }
     e.preventDefault();
   }
 }
@@ -445,14 +450,6 @@ function collisionDetection() {
 
 
 function drawBall() {
-  /* ctx.beginPath();
-  ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI*2);
-  ctx.fillStyle = "#6f25e463";          //purple
-  ctx.fillStyle = "#1304f0";            // blue
-  ctx.fillStyle = "#1e1bc775";
-  ctx.fillStyle = "#fdba9a";          
-  ctx.fill();
-  ctx.closePath(); */
 
   ctx.imageSmoothingEnabled = false;
   ctx.drawImage( ball_image, ball.x, ball.y, 2*ball.radius, 2*ball.radius);
@@ -463,32 +460,10 @@ color-accesbility
 flatuicolors */
 
 function drawPaddle() {
-  /* ctx.beginPath(); */
-  /* ctx.rect(paddle.paddleX, paddle.paddleY, paddle.width, paddle.height);
-  ctx.fillStyle = "#1304f0";              // blue  fff
-  ctx.fillStyle = "#f3f1f187";
-  ctx.fill(); */
-
-  /* ctx.strokeStyle = "#f64b3c";
-  ctx.strokeStyle = "#c81912";
-  ctx.lineWidth = 5;
-  ctx.strokeRect(paddle.paddleX, paddle.paddleY, paddle.width, paddle.height); */
-
-  
-
-  /* ctx.closePath(); */
   ctx.imageSmoothingEnabled = false;
   ctx.drawImage( paddle_image, paddle.paddleX, paddle.paddleY, paddle.width, paddle.height);
 }
 
-//mai bhi chalu
-/* function drawPowerUp() {
-  ctx.beginPath();
-  ctx.rect(30, 30, 5, 8);
-  ctx.fillStyle = "#6f25e463";             //purple
-  ctx.fill();
-  ctx.closePath();
-} */
 
 
 let star_image = new Image();
@@ -618,7 +593,7 @@ function draw() {
         navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
 
         if( navigator.vibrate) {
-          window.navigator.vibrate(1000);
+          window.navigator.vibrate(500);
         }
 
         game.paused = true;
@@ -632,7 +607,7 @@ function draw() {
       else {
 
         if( navigator.vibrate) {
-          window.navigator.vibrate(800);
+          window.navigator.vibrate(200);
         }
 
         ball.x = paddle.paddleX + paddle.width/2;
