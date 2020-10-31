@@ -368,7 +368,10 @@ let paddle_image = new Image();
 paddle_image.src = 'images/paddle3.png';
 
 let ball_image = new Image();
-ball_image.src = 'images/ball3.png';
+ball_image.src = 'images/ball4.png';
+
+let ball_lives_image = new Image();
+ball_lives_image.src = 'images/ball6.png';
 
 
 
@@ -532,9 +535,6 @@ function drawScore() {
 }
 
 
-let ball_lives_image = new Image();
-ball_lives_image.src = 'images/ball.png';
-
 
 function drawLives() {
   ctx.imageSmoothingEnabled = false;
@@ -544,14 +544,10 @@ function drawLives() {
 }
 
 
-async function wait() {
-  await setTimeout(() => {}, 1000);
-}
 
 function restartGame() {
   game.paused = false;
   document.location.reload();
-  /* init(); */
 }
 
 
@@ -566,19 +562,19 @@ function draw() {
   drawLives();
   collisionDetection();
 
-  if(ball.x + ball.dx > game_screen.width -ball.radius || ball.x + ball.dx < ball.radius) {         // left nd right wall collision
+  if(ball.x + ball.dx > game_screen.width || ball.x + ball.dx < 0) {         // left nd right wall collision
     ball.dx = -ball.dx;
   }
   if(ball.y + ball.dy < ball.radius) {                                             // top wall collision
     ball.dy = -ball.dy;
   }
   else if( ball.x+ 2*ball.radius > paddle.paddleX && ball.x-2*ball.radius <paddle.paddleX + paddle.width && ball.y + ball.dy > game_screen.height-2*ball.radius - paddle.height) {
-      ball.dy = -ball.dy;
-      hittingPaddle.playSound();
+        hittingPaddle.playSound();
+        ball.dy = -ball.dy;
+
   }
   else if( ball.y + ball.dy > game_screen.height-ball.radius) {            // Bottom wall collision
       fallen.playSound();
-      /* await draw(); */
       game.lives--;
 
 
@@ -666,6 +662,3 @@ function init()
   document.getElementById("startGameDiv").style.display = "none";
   startGame();
 }
-
-
-
