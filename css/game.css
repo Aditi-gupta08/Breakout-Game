@@ -72,9 +72,6 @@
   color: #f0edf1d9;
 }
 
-/* #chooseLangTxt{
-  font-size: 30px;
-} */
 
 .languageDiv select, .languageDiv select:active, .languageDiv select.focus{
   outline: none;
